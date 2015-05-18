@@ -1,0 +1,1 @@
+Intellij plugin aims to help navigate between handlebar templates.
