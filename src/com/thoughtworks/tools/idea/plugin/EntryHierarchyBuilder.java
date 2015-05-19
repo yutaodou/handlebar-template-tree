@@ -3,7 +3,6 @@ package com.thoughtworks.tools.idea.plugin;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.search.FileTypeIndex;
-import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.containers.SortedList;
 import com.intellij.util.indexing.FileBasedIndex;
@@ -22,8 +21,6 @@ public class EntryHierarchyBuilder {
 
         List<Template> templates = new SortedList<Template>(TemplateComparator.INSTANCE);
         Collection<VirtualFile> files = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, TemplateFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        FilenameIndex.getVirtualFilesByName(project, "*.hbs.html", GlobalSearchScope.projectScope(project))
-
         return templates;
     }
 }
