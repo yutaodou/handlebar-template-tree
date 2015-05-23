@@ -1,5 +1,6 @@
 package com.thoughtworks.tools.idea.plugin.model;
 
+import com.google.common.collect.ImmutableList;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.SortedList;
 
@@ -29,6 +30,14 @@ public class Template {
 
     public String getName() {
         return virtualFile.getName();
+    }
+
+    public List<Usage> getUsingList() {
+        return ImmutableList.copyOf(usingList);
+    }
+
+    public List<Usage> getUsedByList() {
+        return ImmutableList.copyOf(usedByList);
     }
 
     @Override

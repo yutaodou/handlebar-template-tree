@@ -6,10 +6,10 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
-import com.intellij.ui.treeStructure.PatchedDefaultMutableTreeNode;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
 import com.thoughtworks.tools.idea.plugin.model.Template;
-import com.thoughtworks.tools.idea.plugin.ui.TemplateHierarchyTreeModel;
+import com.thoughtworks.tools.idea.plugin.ui.RootTreeNode;
 
 import java.util.List;
 
@@ -43,10 +43,10 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
                 ToolWindow toolWindow = toolWindowManager.getToolWindow(TOOL_WINDOW_ID);
                 if (toolWindow == null) {
                     toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, false);
-                    Tree tree = new Tree(new PatchedDefaultMutableTreeNode());
-                    tree.setModel(new TemplateHierarchyTreeModel(templates));
+                    RootTreeNode root = new RootTreeNode(templates);
+                    Tree tree = new Tree(root);
                     tree.setRootVisible(false);
-                    toolWindow.getComponent().add(tree);
+                    toolWindow.getComponent().add(new JBScrollPane(tree));
                 }
                 toolWindow.show(null);
             }

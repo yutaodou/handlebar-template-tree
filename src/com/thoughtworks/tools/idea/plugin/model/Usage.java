@@ -16,4 +16,18 @@ public class Usage {
     public Template getTemplate() {
         return template;
     }
+
+    public enum Type {
+        Using("Using"), UsedBy("Used by");
+
+        private String type;
+
+        Type(String type) {
+            this.type = type;
+        }
+
+        public String getText() {
+            return type;
+        }
+    }
 }
