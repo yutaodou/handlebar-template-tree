@@ -6,9 +6,11 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.ui.treeStructure.PatchedDefaultMutableTreeNode;
+import com.intellij.ui.treeStructure.Tree;
 import com.thoughtworks.tools.idea.plugin.model.Template;
+import com.thoughtworks.tools.idea.plugin.ui.TemplateHierarchyTreeModel;
 
-import javax.swing.*;
 import java.util.List;
 
 import static com.intellij.openapi.wm.ToolWindowAnchor.RIGHT;
@@ -29,10 +31,10 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
 
         HierarchyBuilder builder = new HierarchyBuilder(project);
         List<Template> templates = builder.build();
-        showHierarchyToolWindow(project);
+        showHierarchyToolWindow(project, templates);
     }
 
-    private void showHierarchyToolWindow(final Project project) {
+    private void showHierarchyToolWindow(final Project project, final List<Template> templates) {
         final ToolWindowManager toolWindowManager = ToolWindowManager.getInstance(project);
 
         ApplicationManager.getApplication().invokeLater(new Runnable() {
@@ -41,8 +43,10 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
                 ToolWindow toolWindow = toolWindowManager.getToolWindow(TOOL_WINDOW_ID);
                 if (toolWindow == null) {
                     toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, false);
-                    JLabel label = new JLabel("Show hierarchy here.");
-                    toolWindow.getComponent().add(label);
+                    Tree tree = new Tree(new PatchedDefaultMutableTreeNode());
+                    tree.setModel(new TemplateHierarchyTreeModel(templates));
+                    tree.setRootVisible(false);
+                    toolWindow.getComponent().add(tree);
                 }
                 toolWindow.show(null);
             }
