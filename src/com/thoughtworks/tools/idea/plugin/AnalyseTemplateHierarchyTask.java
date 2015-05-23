@@ -7,8 +7,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
+import com.thoughtworks.tools.idea.plugin.model.Template;
 
 import javax.swing.*;
+import java.util.List;
 
 class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
     private final Project project;
@@ -22,6 +24,9 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
     public void run(ProgressIndicator indicator) {
         indicator.setText("Analysing template hierarchy...");
         indicator.setIndeterminate(true);
+
+        HierarchyBuilder builder = new HierarchyBuilder(project);
+        List<Template> templates = builder.build();
         showHierarchyToolWindow(project);
     }
 
@@ -33,7 +38,6 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
                 if (toolWindow == null) {
                     toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(ShowTemplateHierarchyAction.TOOL_WINDOW_ID, true, ToolWindowAnchor.RIGHT, false);
                     JLabel label = new JLabel("Show hierarchy here.");
-                    toolWindow.setTitle("Template hierarchy");
                     toolWindow.getComponent().add(label);
                 }
                 toolWindow.show(null);

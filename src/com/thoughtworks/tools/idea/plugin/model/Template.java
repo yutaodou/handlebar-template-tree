@@ -6,44 +6,71 @@ import com.intellij.util.containers.SortedList;
 import java.util.List;
 
 public class Template {
-    private VirtualFile file;
+    private VirtualFile virtualFile;
 
-    private List<Template> includingEntries = new SortedList<Template>(TemplateComparator.INSTANCE);
-    private List<Template> includedEntries = new SortedList<Template>(TemplateComparator.INSTANCE);
+    private List<Usage> usingList = new SortedList<Usage>(UsageComparator.INSTANCE);
+    private List<Usage> usedByList = new SortedList<Usage>(UsageComparator.INSTANCE);
 
-    public Template(VirtualFile file) {
-        if (file == null) {
-            throw new IllegalArgumentException("null virtual file");
-
-        }
-        this.file = file;
+    public Template(VirtualFile virtualFile) {
+        this.virtualFile = virtualFile;
     }
 
-    public void addIncluding(Template template) {
-        if (template == null) {
-            throw new IllegalArgumentException("null entry");
-        }
-
-        this.includingEntries.add(template);
-    }
-
-    public void addIncluded(Template template) {
-        if (template == null) {
-            throw new IllegalArgumentException("null entry");
-        }
-
-        this.includedEntries.add(template);
+    public UsageBuilder use(Template template) {
+        return new UsageBuilder(this).use(template);
     }
 
     public VirtualFile getVirtualFile() {
-        return file;
+        return virtualFile;
     }
 
     public String getPath() {
-        return file.getPath();
+        return virtualFile.getPath();
     }
 
     public String getName() {
-        return file.getName();
+        return virtualFile.getName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Template template = (Template) o;
+
+        return virtualFile.equals(template.virtualFile);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return virtualFile.hashCode();
+    }
+
+    private void use(Usage usage) {
+        usingList.add(usage);
+    }
+
+    private void usedBy(Usage usage) {
+        usedByList.add(usage);
+    }
+
+    public static class UsageBuilder {
+        private Template parent;
+        private Template child;
+
+        public UsageBuilder(Template parent) {
+            this.parent = parent;
+        }
+
+        private UsageBuilder use(Template child) {
+            this.child = child;
+            return this;
+        }
+
+        public void inLine(int line) {
+            parent.use(new Usage(child, line));
+            child.usedBy(new Usage(parent, line));
+        }
     }
 }
