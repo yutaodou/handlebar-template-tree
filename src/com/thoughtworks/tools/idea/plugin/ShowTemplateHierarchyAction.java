@@ -8,8 +8,6 @@ import com.intellij.openapi.project.Project;
 
 public class ShowTemplateHierarchyAction extends DumbAwareAction {
 
-    public static final String TOOL_WINDOW_ID = "Template Hierarchy";
-
     @Override
     public void actionPerformed(AnActionEvent e) {
         final Project project = e.getData(DataKeys.PROJECT);
@@ -18,5 +16,4 @@ public class ShowTemplateHierarchyAction extends DumbAwareAction {
         }
         ProgressManager.getInstance().run(new AnalyseTemplateHierarchyTask(project));
     }
-
 }
