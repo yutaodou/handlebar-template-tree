@@ -37,7 +37,7 @@
     </project-components>
 
     <actions>
-        <action id="template.hierarchy" class="com.thoughtworks.tools.idea.plugin.ShowTemplateUsageAction" text="Show Hierarchy"
+        <action id="template.hierarchy" class="com.thoughtworks.tools.idea.plugin.ShowTemplateUsageAction" text="Template Hierarchy"
                 description="show handlerbar template hierarchy">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>

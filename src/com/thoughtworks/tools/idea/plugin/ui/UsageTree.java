@@ -1,6 +1,7 @@
 package com.thoughtworks.tools.idea.plugin.ui;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.TreeSpeedSearch;
 import com.intellij.ui.treeStructure.Tree;
 import com.thoughtworks.tools.idea.plugin.model.Template;
 
@@ -18,7 +19,13 @@ public class UsageTree extends Tree {
         this.setCellRenderer(new UsageTreeCellRenderer());
         this.setRootVisible(false);
         this.setExpandsSelectedPaths(true);
+
+        setupSpeedSearch();
         setupEventListener();
+    }
+
+    private void setupSpeedSearch() {
+        new TreeSpeedSearch(this);
     }
 
     public Project getProject() {
