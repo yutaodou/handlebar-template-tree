@@ -9,10 +9,10 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
-import com.intellij.ui.treeStructure.Tree;
 import com.thoughtworks.tools.idea.plugin.model.Template;
-import com.thoughtworks.tools.idea.plugin.ui.RootTreeNode;
+import com.thoughtworks.tools.idea.plugin.ui.UsageTree;
 
+import javax.swing.*;
 import java.util.List;
 
 import static com.intellij.openapi.wm.ToolWindowAnchor.RIGHT;
@@ -47,12 +47,11 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
                     toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, project, true);
                 }
 
-                RootTreeNode root = new RootTreeNode(templates);
-                Tree tree = new Tree(root);
-                tree.setRootVisible(false);
                 ContentManager contentManager = toolWindow.getContentManager();
-                Content usageContent = contentManager.getFactory().createContent(new JBScrollPane(tree), "Usage", false);
+                JComponent component = new JBScrollPane(new UsageTree(templates, project));
+                Content usageContent = contentManager.getFactory().createContent(component, "Usage", false);
                 contentManager.addContent(usageContent);
+
                 toolWindow.show(null);
             }
         });

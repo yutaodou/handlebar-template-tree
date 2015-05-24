@@ -18,7 +18,7 @@ public class HierarchyBuilder {
 
     private static final String EXTENSION = "hbs.html";
     private Project project;
-    private UsageParser usageParser;
+    private UsageAnalyser usageAnalyser;
     private List<Template> templates = new SortedList<Template>(TemplateComparator.INSTANCE);
 
     public HierarchyBuilder(Project project) {
@@ -26,7 +26,7 @@ public class HierarchyBuilder {
             throw new IllegalArgumentException("null project");
         }
         this.project = project;
-        this.usageParser = new UsageParser();
+        this.usageAnalyser = new UsageAnalyser();
     }
 
     public List<Template> build() {
@@ -41,7 +41,7 @@ public class HierarchyBuilder {
 
         for (File file : templateFiles) {
             Template parent = findTemplate(file.getPath());
-            MultiMap<String, Integer> usage = usageParser.parse(file);
+            MultiMap<String, Integer> usage = usageAnalyser.analyse(file);
             for (String templateName : usage.keySet()) {
                 Template child = findTemplate(String.format("%s.%s", templateName, EXTENSION));
                 if (child == null) {
@@ -49,7 +49,7 @@ public class HierarchyBuilder {
                 }
 
                 for (Integer line : usage.get(templateName)) {
-                    parent.use(child).inLine(line);
+                    parent.use(child).inLine(line + 1);
                 }
             }
         }

@@ -11,11 +11,11 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UsageParser {
+public class UsageAnalyser {
 
     public static final Pattern PATTERN = Pattern.compile("\\{\\{\\s*\\>\\s*(\\S*)\\s*\\}\\}");
 
-    public MultiMap<String, Integer> parse(File file) {
+    public MultiMap<String, Integer> analyse(File file) {
         MultiMap<String, Integer> usages = MultiMap.createLinked();
         try {
             List<String> lines = Files.readLines(file, Charset.forName("utf-8"));
@@ -26,7 +26,7 @@ public class UsageParser {
                     continue;
                 }
                 String templateName = matcher.group(1);
-                usages.putValue(templateName, line + 1);
+                usages.putValue(templateName, line);
             }
         } catch (IOException e) {
             Logger.getLogger(HierarchyBuilder.class.getSimpleName()).warning("Failed to parse template usage.");

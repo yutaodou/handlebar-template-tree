@@ -45,7 +45,7 @@ public class UsageTypeTreeNode extends PatchedDefaultMutableTreeNode {
 
     @Override
     public TreeNode getChildAt(int index) {
-        return new UsageTreeNode(getUsages().get(index));
+        return new UsageTreeNode(template, type, getUsages().get(index));
     }
 
     @Override
