@@ -10,7 +10,7 @@ public class UsageComparator implements Comparator<Usage> {
     }
 
     @Override
-    public int compare(Usage one, Usage another) {
-        return one.getTemplate().getPath().compareTo(another.getTemplate().getPath());
+    public int compare(Usage one, Usage other) {
+        return TemplateComparator.INSTANCE.compare(one.getTemplate(), other.getTemplate());
     }
 }

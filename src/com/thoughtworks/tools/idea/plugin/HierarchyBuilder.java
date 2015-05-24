@@ -40,16 +40,16 @@ public class HierarchyBuilder {
         }
 
         for (File file : templateFiles) {
-            Template current = findTemplate(file.getPath());
+            Template parent = findTemplate(file.getPath());
             MultiMap<String, Integer> usage = usageParser.parse(file);
             for (String templateName : usage.keySet()) {
-                Template template = findTemplate(String.format("%s.%s", templateName, EXTENSION));
-                if (template == null) {
+                Template child = findTemplate(String.format("%s.%s", templateName, EXTENSION));
+                if (child == null) {
                     continue;
                 }
 
                 for (Integer line : usage.get(templateName)) {
-                    current.use(template).inLine(line);
+                    parent.use(child).inLine(line);
                 }
             }
         }

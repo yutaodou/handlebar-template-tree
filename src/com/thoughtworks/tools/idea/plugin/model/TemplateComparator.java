@@ -9,7 +9,7 @@ public class TemplateComparator implements Comparator<Template> {
     }
 
     @Override
-    public int compare(Template template, Template t1) {
-        return template.getPath().compareTo(t1.getPath());
+    public int compare(Template template, Template other) {
+        return template.getName().compareTo(other.getName());
     }
 }
