@@ -25,10 +25,6 @@ public class UsageTypeTreeNode extends PatchedDefaultMutableTreeNode {
         return template;
     }
 
-    public Usage.Type getUsageType() {
-        return type;
-    }
-
     @Override
     public String getText() {
         return type.getText();

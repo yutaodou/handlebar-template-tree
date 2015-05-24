@@ -43,7 +43,7 @@ public class HierarchyBuilder {
             Template parent = findTemplate(file.getPath());
             MultiMap<String, Integer> usage = usageAnalyser.analyse(file);
             for (String templateName : usage.keySet()) {
-                Template child = findTemplate(String.format("%s.%s", templateName, EXTENSION));
+                Template child = findTemplate(String.format("%s%s.%s", File.separator, templateName, EXTENSION));
                 if (child == null) {
                     continue;
                 }
