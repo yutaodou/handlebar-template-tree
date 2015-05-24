@@ -39,7 +39,7 @@ class TreeMouseClickHandler extends MouseAdapter {
         } else if (node instanceof UsageTreeNode) {
             UsageTreeNode usageNode = (UsageTreeNode) node;
             VirtualFile fileToOpen;
-            fileToOpen = Using == usageNode.getUsageType() ?
+            fileToOpen = (Using == usageNode.getUsageType()) ?
                 usageNode.getUsageSource().getVirtualFile() :
                 usageNode.getUserObject().getTemplate().getVirtualFile();
 

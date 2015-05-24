@@ -29,6 +29,8 @@ public class ShowTemplateUsageAction extends DumbAwareAction {
         if (project == null || project.isDefault()) {
             return;
         }
-        ProgressManager.getInstance().run(new AnalyseTemplateUsageTask(project));
+
+        VirtualFile file = e.getData(DataKeys.VIRTUAL_FILE);
+        ProgressManager.getInstance().run(new AnalyseTemplateUsageTask(new Context(project,file)));
     }
 }

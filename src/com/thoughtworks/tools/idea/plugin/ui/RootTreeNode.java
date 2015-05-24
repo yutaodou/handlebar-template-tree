@@ -6,7 +6,7 @@ import com.thoughtworks.tools.idea.plugin.model.Template;
 import javax.swing.tree.TreeNode;
 import java.util.List;
 
-class RootTreeNode extends PatchedDefaultMutableTreeNode {
+public class RootTreeNode extends PatchedDefaultMutableTreeNode {
     private List<Template> templateList;
 
     public RootTreeNode(List<Template> templateList) {
