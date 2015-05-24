@@ -17,11 +17,11 @@ import java.util.List;
 
 import static com.intellij.openapi.wm.ToolWindowAnchor.RIGHT;
 
-class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
+class AnalyseTemplateUsageTask extends Task.Backgroundable {
     public static final String TOOL_WINDOW_ID = "Template Hierarchy";
     private final Project project;
 
-    public AnalyseTemplateHierarchyTask(Project project) {
+    public AnalyseTemplateUsageTask(Project project) {
         super(project, "show template hierarchy", false);
         this.project = project;
     }
@@ -31,7 +31,7 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
         indicator.setText("Analysing template hierarchy...");
         indicator.setIndeterminate(true);
 
-        HierarchyBuilder builder = new HierarchyBuilder(project);
+        UsageBuilder builder = new UsageBuilder(project);
         List<Template> templates = builder.build();
         showHierarchyToolWindow(project, templates);
     }

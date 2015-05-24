@@ -29,7 +29,7 @@ public class UsageAnalyser {
                 usages.putValue(templateName, line);
             }
         } catch (IOException e) {
-            Logger.getLogger(HierarchyBuilder.class.getSimpleName()).warning("Failed to parse template usage.");
+            Logger.getLogger(UsageBuilder.class.getSimpleName()).warning("Failed to parse template usage.");
         }
 
         return usages;

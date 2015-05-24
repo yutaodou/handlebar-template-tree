@@ -14,14 +14,14 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.List;
 
-public class HierarchyBuilder {
+public class UsageBuilder {
+    private static final String EXTENSION = TemplateFileType.INSTANCE.getDefaultExtension();
 
-    private static final String EXTENSION = "hbs.html";
     private Project project;
     private UsageAnalyser usageAnalyser;
     private List<Template> templates = new SortedList<Template>(TemplateComparator.INSTANCE);
 
-    public HierarchyBuilder(Project project) {
+    public UsageBuilder(Project project) {
         if (project == null) {
             throw new IllegalArgumentException("null project");
         }
