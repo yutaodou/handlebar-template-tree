@@ -8,7 +8,7 @@ import javax.swing.tree.TreeNode;
 import static com.thoughtworks.tools.idea.plugin.model.Usage.Type.UsedBy;
 import static com.thoughtworks.tools.idea.plugin.model.Usage.Type.Using;
 
-public class TemplateTreeNode extends PatchedDefaultMutableTreeNode {
+class TemplateTreeNode extends PatchedDefaultMutableTreeNode {
     private Template template;
 
     public TemplateTreeNode(Template template) {

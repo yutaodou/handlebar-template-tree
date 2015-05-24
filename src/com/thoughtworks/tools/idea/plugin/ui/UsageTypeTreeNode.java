@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.thoughtworks.tools.idea.plugin.model.Usage.Type.Using;
 
-public class UsageTypeTreeNode extends PatchedDefaultMutableTreeNode {
+class UsageTypeTreeNode extends PatchedDefaultMutableTreeNode {
 
     private Template template;
     private Usage.Type type;
@@ -18,6 +18,10 @@ public class UsageTypeTreeNode extends PatchedDefaultMutableTreeNode {
         super(type.getText());
         this.template = template;
         this.type = type;
+    }
+
+    public Usage.Type getUsageType() {
+        return type;
     }
 
     @Override
