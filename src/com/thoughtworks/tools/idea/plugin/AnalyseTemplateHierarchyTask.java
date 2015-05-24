@@ -7,6 +7,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.components.JBScrollPane;
+import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.treeStructure.Tree;
 import com.thoughtworks.tools.idea.plugin.model.Template;
 import com.thoughtworks.tools.idea.plugin.ui.RootTreeNode;
@@ -42,12 +44,15 @@ class AnalyseTemplateHierarchyTask extends Task.Backgroundable {
             public void run() {
                 ToolWindow toolWindow = toolWindowManager.getToolWindow(TOOL_WINDOW_ID);
                 if (toolWindow == null) {
-                    toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, false);
-                    RootTreeNode root = new RootTreeNode(templates);
-                    Tree tree = new Tree(root);
-                    tree.setRootVisible(false);
-                    toolWindow.getComponent().add(new JBScrollPane(tree));
+                    toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, project, true);
                 }
+
+                RootTreeNode root = new RootTreeNode(templates);
+                Tree tree = new Tree(root);
+                tree.setRootVisible(false);
+                ContentManager contentManager = toolWindow.getContentManager();
+                Content usageContent = contentManager.getFactory().createContent(new JBScrollPane(tree), "Usage", false);
+                contentManager.addContent(usageContent);
                 toolWindow.show(null);
             }
         });
