@@ -3,16 +3,19 @@ package com.thoughtworks.tools.idea.plugin;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.thoughtworks.tools.idea.plugin.utils.FileUtils;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class DefaultTemplateProvider implements TemplateFileProvider {
+
+    private static final Predicate<File> isTemplate = file ->
+        file.getPath().toLowerCase().endsWith(TemplateFileType.INSTANCE.getDefaultExtension());
 
     private final Project project;
     private final List<File> templateFiles;
@@ -39,14 +42,22 @@ public class DefaultTemplateProvider implements TemplateFileProvider {
         if (!dir.exists()) {
             return Stream.empty();
         }
-        return FileUtils.recursiveListFile(dir, new TemplateFileFilter()).stream();
+        return recursiveListFile(dir, isTemplate).stream();
     }
 
-    private static class TemplateFileFilter implements FilenameFilter {
-        @Override
-        public boolean accept(File file, String name) {
-            return file.isFile() &&
-                name.toLowerCase().endsWith(TemplateFileType.INSTANCE.getDefaultExtension());
+    private static List<File> recursiveListFile(File root, Predicate<File> isTemplate) {
+        List<File> result = new ArrayList();
+        File[] children = root.listFiles();
+        for (File child : children) {
+            if (child.isDirectory()) {
+                result.addAll(recursiveListFile(child, isTemplate));
+            } else {
+                if (isTemplate.test(child)) {
+                    result.add(child);
+                }
+            }
         }
+        return result;
     }
+
 }

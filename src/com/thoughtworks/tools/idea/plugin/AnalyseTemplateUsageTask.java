@@ -40,24 +40,21 @@ class AnalyseTemplateUsageTask extends Task.Backgroundable {
     private void showHierarchyToolWindow(final List<Template> templates) {
         final ToolWindowManager toolWindowManager = ToolWindowManager.getInstance(context.getProject());
 
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ToolWindow toolWindow = toolWindowManager.getToolWindow(TOOL_WINDOW_ID);
-                if (toolWindow == null) {
-                    toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, context.getProject(), true);
-                }
-
-                ContentManager contentManager = toolWindow.getContentManager();
-
-                Template current = findTemplateByVirtualFile(templates, context.getVirtualFile());
-                UsageTree tree = new UsageTree(context.getProject(), new RootTreeNode(templates));
-                JComponent component = new JBScrollPane(tree);
-                Content usageContent = contentManager.getFactory().createContent(component, "Usage", false);
-                contentManager.addContent(usageContent);
-
-                toolWindow.show(null);
+        ApplicationManager.getApplication().invokeLater(() -> {
+            ToolWindow toolWindow = toolWindowManager.getToolWindow(TOOL_WINDOW_ID);
+            if (toolWindow == null) {
+                toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, context.getProject(), true);
             }
+
+            ContentManager contentManager = toolWindow.getContentManager();
+
+            Template current = findTemplateByVirtualFile(templates, context.getVirtualFile());
+            UsageTree tree = new UsageTree(context.getProject(), new RootTreeNode(templates));
+            JComponent component = new JBScrollPane(tree);
+            Content usageContent = contentManager.getFactory().createContent(component, "Usage", false);
+            contentManager.addContent(usageContent);
+
+            toolWindow.show(null);
         });
     }
 

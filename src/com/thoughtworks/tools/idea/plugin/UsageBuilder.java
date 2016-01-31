@@ -17,7 +17,7 @@ public class UsageBuilder {
 
     private Project project;
     private UsageAnalyser usageAnalyser;
-    private List<Template> templates = new SortedList<Template>(TemplateComparator.INSTANCE);
+    private List<Template> templates = new SortedList<>(TemplateComparator.INSTANCE);
 
     public UsageBuilder(Project project) {
         if (project == null) {
@@ -36,12 +36,12 @@ public class UsageBuilder {
         return new DefaultTemplateProvider(project).list();
     }
 
-    private List<Template> process(List<File> templateFiles) {
-        for (File templateFile : templateFiles) {
-            templates.add(createTemplate(templateFile.getPath()));
+    private List<Template> process(List<File> templates) {
+        for (File templateFile : templates) {
+            this.templates.add(createTemplate(templateFile.getPath()));
         }
 
-        for (File file : templateFiles) {
+        for (File file : templates) {
             Template parent = findTemplate(file.getPath());
             MultiMap<String, Integer> usage = usageAnalyser.analyse(file);
             for (String templateName : usage.keySet()) {
@@ -55,7 +55,7 @@ public class UsageBuilder {
                 }
             }
         }
-        return templates;
+        return this.templates;
     }
 
     @Nullable
