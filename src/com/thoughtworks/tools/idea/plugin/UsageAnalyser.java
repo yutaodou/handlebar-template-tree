@@ -19,14 +19,14 @@ public class UsageAnalyser {
         MultiMap<String, Integer> usages = MultiMap.createLinked();
         try {
             List<String> lines = Files.readLines(file, Charset.forName("utf-8"));
-            for (int line = 0; line < lines.size(); line++) {
-                String content = lines.get(line);
+            for (int lineIndex = 0; lineIndex < lines.size(); lineIndex++) {
+                String content = lines.get(lineIndex);
                 Matcher matcher = PATTERN.matcher(content);
                 if (!matcher.find()) {
                     continue;
                 }
                 String templateName = matcher.group(1);
-                usages.putValue(templateName, line);
+                usages.putValue(templateName, lineIndex + 1);
             }
         } catch (IOException e) {
             Logger.getLogger(UsageBuilder.class.getSimpleName()).warning("Failed to parse template usage.");
