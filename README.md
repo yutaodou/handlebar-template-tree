@@ -18,4 +18,4 @@ An Intellij plugin aims to help navigating between handlebar/mustache templates.
 - To show icons for your templates in the tree view, add a file type definition for handlebar that matching your template's file extension.
 
 #### Package
-[Template-Nav](https://github.com/yutaodou/handlebar-template-nav/blob/master/TemplateNav-1.1.jar)
+[Template-Nav.jar](https://github.com/yutaodou/handlebar-template-nav/blob/master/TemplateNav-1.1.jar)
