@@ -3,6 +3,7 @@ package com.thoughtworks.tools.idea.plugin;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.thoughtworks.tools.idea.plugin.model.Template;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,9 +14,6 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 public class DefaultTemplateProvider implements TemplateFileProvider {
-
-    private static final Predicate<File> isTemplate = file ->
-        file.getPath().toLowerCase().endsWith(TemplateFileType.INSTANCE.getDefaultExtension());
 
     private final Project project;
     private final List<File> templateFiles;
@@ -42,17 +40,17 @@ public class DefaultTemplateProvider implements TemplateFileProvider {
         if (!dir.exists()) {
             return Stream.empty();
         }
-        return recursiveListFile(dir, isTemplate).stream();
+        return recursiveListFile(dir, Template.isTemplate).stream();
     }
 
-    private static List<File> recursiveListFile(File root, Predicate<File> isTemplate) {
+    private static List<File> recursiveListFile(File root, Predicate<String> isTemplate) {
         List<File> result = new ArrayList();
         File[] children = root.listFiles();
         for (File child : children) {
             if (child.isDirectory()) {
                 result.addAll(recursiveListFile(child, isTemplate));
             } else {
-                if (isTemplate.test(child)) {
+                if (isTemplate.test(child.getPath())) {
                     result.add(child);
                 }
             }

@@ -5,12 +5,17 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.SortedList;
 
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class Template {
-    private VirtualFile virtualFile;
+    public static final String[] EXTENSIONS = {"handlebars", "hbs", "hbs.html", "mustache"};
+    public static final Predicate<String> isTemplate = path ->
+        Stream.of(EXTENSIONS).anyMatch(extension -> path.toLowerCase().endsWith(extension));
 
-    private List<Usage> usingList = new SortedList<Usage>(UsageComparator.INSTANCE);
-    private List<Usage> usedByList = new SortedList<Usage>(UsageComparator.INSTANCE);
+    private VirtualFile virtualFile;
+    private List<Usage> usingList = new SortedList<>(UsageComparator.INSTANCE);
+    private List<Usage> usedByList = new SortedList<>(UsageComparator.INSTANCE);
 
     public Template(VirtualFile virtualFile) {
         this.virtualFile = virtualFile;
@@ -48,7 +53,6 @@ public class Template {
         Template template = (Template) o;
 
         return virtualFile.equals(template.virtualFile);
-
     }
 
     @Override

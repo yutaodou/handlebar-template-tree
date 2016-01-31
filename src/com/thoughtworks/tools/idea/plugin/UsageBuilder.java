@@ -13,8 +13,6 @@ import java.io.File;
 import java.util.List;
 
 public class UsageBuilder {
-    private static final String EXTENSION = TemplateFileType.INSTANCE.getDefaultExtension();
-
     private Project project;
     private UsageAnalyser usageAnalyser;
     private List<Template> templates = new SortedList<>(TemplateComparator.INSTANCE);
@@ -45,13 +43,13 @@ public class UsageBuilder {
             Template parent = findTemplate(file.getPath());
             MultiMap<String, Integer> usage = usageAnalyser.analyse(file);
             for (String templateName : usage.keySet()) {
-                Template child = findTemplate(String.format("%s%s.%s", File.separator, templateName, EXTENSION));
+                Template child = findTemplate(String.format("%s%s", File.separator, templateName));
                 if (child == null) {
                     continue;
                 }
 
                 for (Integer line : usage.get(templateName)) {
-                    parent.use(child).inLine(line + 1);
+                    parent.use(child).inLine(line);
                 }
             }
         }
@@ -70,7 +68,7 @@ public class UsageBuilder {
 
     private Template findTemplate(String path) {
         for (Template template : templates) {
-            if (template.getPath().toLowerCase().endsWith(path.toLowerCase())) {
+            if (template.getPath().toLowerCase().contains(path.toLowerCase())) {
                 return template;
             }
         }

@@ -8,6 +8,8 @@ import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
+import static com.thoughtworks.tools.idea.plugin.model.Template.isTemplate;
+
 public class ShowTemplateUsageAction extends DumbAwareAction {
 
     @Override
@@ -18,12 +20,8 @@ public class ShowTemplateUsageAction extends DumbAwareAction {
             e.getPresentation().setEnabledAndVisible(false);
         }
 
-        VirtualFile file = e.getData(DataKeys.VIRTUAL_FILE);
-        e.getPresentation().setEnabledAndVisible(isTemplate(file));
-    }
-
-    private boolean isTemplate(VirtualFile file) {
-        return file.getUrl().toLowerCase().endsWith(TemplateFileType.INSTANCE.getDefaultExtension());
+        String filePath = e.getData(DataKeys.VIRTUAL_FILE).getPath();
+        e.getPresentation().setEnabledAndVisible(isTemplate.test(filePath));
     }
 
     @Override
