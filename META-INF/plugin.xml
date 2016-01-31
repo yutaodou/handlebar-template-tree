@@ -1,8 +1,8 @@
 <idea-plugin version="2">
     <id>com.thoughtworks.tools.idea.templatenav</id>
-    <name>Template Navivator</name>
-    <version>1.0</version>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Template Navigator</name>
+    <version>1.1</version>
+    <vendor email="yutaodou@gmail.com" url="http://ddou.github.io">Dou Yutao</vendor>
 
     <description><![CDATA[
       Enter short description for your plugin here.<br>
