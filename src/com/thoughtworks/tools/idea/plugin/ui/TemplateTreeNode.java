@@ -28,12 +28,27 @@ class TemplateTreeNode extends PatchedDefaultMutableTreeNode {
 
     @Override
     public TreeNode getChildAt(int index) {
-        return index == 0 ? new UsageTypeTreeNode(template, Using) : new UsageTypeTreeNode(template, UsedBy);
+        if (index >= getChildCount()) {
+            return null;
+        }
+
+        if (index == 0 && !template.getUsingList().isEmpty()) {
+            return new UsageTypeTreeNode(template, Using);
+        }
+        return new UsageTypeTreeNode(template, UsedBy);
     }
 
     @Override
     public int getChildCount() {
-        return 2;
+        int count = 0;
+        if (!template.getUsingList().isEmpty()) {
+            count++;
+        }
+
+        if (!template.getUsedByList().isEmpty()) {
+            count++;
+        }
+        return count;
     }
 
     @Override
