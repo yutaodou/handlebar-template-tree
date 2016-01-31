@@ -7,11 +7,9 @@ import com.intellij.util.containers.MultiMap;
 import com.intellij.util.containers.SortedList;
 import com.thoughtworks.tools.idea.plugin.model.Template;
 import com.thoughtworks.tools.idea.plugin.model.TemplateComparator;
-import com.thoughtworks.tools.idea.plugin.utils.FileUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.List;
 
 public class UsageBuilder {
@@ -32,6 +30,10 @@ public class UsageBuilder {
     public List<Template> build() {
         List<File> templateFiles = getTemplateFiles();
         return process(templateFiles);
+    }
+
+    private List<File> getTemplateFiles() {
+        return new DefaultTemplateProvider(project).list();
     }
 
     private List<Template> process(List<File> templateFiles) {
@@ -75,15 +77,4 @@ public class UsageBuilder {
         return null;
     }
 
-    private List<File> getTemplateFiles() {
-        File rootDir = new File(project.getBasePath());
-        return FileUtils.recursiveListFile(rootDir, new TemplateFileFilter());
-    }
-
-    private class TemplateFileFilter implements FilenameFilter {
-        @Override
-        public boolean accept(File file, String s) {
-            return file.isFile() && s.toLowerCase().endsWith(EXTENSION);
-        }
-    }
 }

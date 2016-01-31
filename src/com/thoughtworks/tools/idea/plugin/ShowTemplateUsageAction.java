@@ -19,8 +19,11 @@ public class ShowTemplateUsageAction extends DumbAwareAction {
         }
 
         VirtualFile file = e.getData(DataKeys.VIRTUAL_FILE);
-        boolean isTemplateFile = file.getUrl().toLowerCase().endsWith(TemplateFileType.INSTANCE.getDefaultExtension());
-        e.getPresentation().setEnabledAndVisible(isTemplateFile);
+        e.getPresentation().setEnabledAndVisible(isTemplate(file));
+    }
+
+    private boolean isTemplate(VirtualFile file) {
+        return file.getUrl().toLowerCase().endsWith(TemplateFileType.INSTANCE.getDefaultExtension());
     }
 
     @Override
@@ -31,6 +34,6 @@ public class ShowTemplateUsageAction extends DumbAwareAction {
         }
 
         VirtualFile file = e.getData(DataKeys.VIRTUAL_FILE);
-        ProgressManager.getInstance().run(new AnalyseTemplateUsageTask(new Context(project,file)));
+        ProgressManager.getInstance().run(new AnalyseTemplateUsageTask(new Context(project, file)));
     }
 }
