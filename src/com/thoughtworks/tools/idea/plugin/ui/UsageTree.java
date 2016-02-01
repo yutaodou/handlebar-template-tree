@@ -5,7 +5,9 @@ import com.intellij.ui.TreeSpeedSearch;
 import com.intellij.ui.treeStructure.Tree;
 import com.thoughtworks.tools.idea.plugin.model.Template;
 
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 public class UsageTree extends Tree {
 
@@ -36,6 +38,19 @@ public class UsageTree extends Tree {
         this.addMouseListener(new TreeMouseClickHandler(this));
     }
 
+    public void selectTemplate(Template template) {
+        TreeNode node = findNodeByTemplate(template);
+        if (node == null) {
+            return;
+        }
+
+        TreeNode[] nodes = ((DefaultTreeModel) getModel()).getPathToRoot(node);
+        TreePath path = new TreePath(nodes);
+
+        setSelectionPath(path);
+        scrollPathToVisible(path);
+    }
+
     private TreeNode findNodeByTemplate(Template template) {
         int total = root.getChildCount();
         for (int i = 0; i < total; i++) {
@@ -44,7 +59,7 @@ public class UsageTree extends Tree {
                 return child;
             }
         }
+
         return null;
     }
-
 }

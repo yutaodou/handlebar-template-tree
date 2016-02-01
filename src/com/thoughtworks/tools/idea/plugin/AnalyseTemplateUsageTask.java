@@ -19,7 +19,7 @@ import java.util.List;
 import static com.intellij.openapi.wm.ToolWindowAnchor.RIGHT;
 
 class AnalyseTemplateUsageTask extends Task.Backgroundable {
-    public static final String TOOL_WINDOW_ID = "Template Usage";
+    public static final String TOOL_WINDOW_ID = "Templates";
     private final Context context;
 
     public AnalyseTemplateUsageTask(Context context) {
@@ -46,16 +46,18 @@ class AnalyseTemplateUsageTask extends Task.Backgroundable {
                 toolWindow = toolWindowManager.registerToolWindow(TOOL_WINDOW_ID, true, RIGHT, context.getProject(), true);
             }
 
-            ContentManager contentManager = toolWindow.getContentManager();
 
             Template current = findTemplateByVirtualFile(templates, context.getVirtualFile());
             UsageTree tree = new UsageTree(context.getProject(), new RootTreeNode(templates));
+            tree.selectTemplate(current);
+
             JComponent component = new JBScrollPane(tree);
-            Content usageContent = contentManager.getFactory().createContent(component, "Usage", false);
+            ContentManager contentManager = toolWindow.getContentManager();
+            Content usageContent = contentManager.getFactory().createContent(component, "", false);
             contentManager.removeAllContents(true);
             contentManager.addContent(usageContent);
 
-            toolWindow.show(null);
+            toolWindow.activate(null, true);
         });
     }
 
