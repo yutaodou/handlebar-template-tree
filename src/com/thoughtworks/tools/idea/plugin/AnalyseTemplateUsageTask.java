@@ -52,6 +52,7 @@ class AnalyseTemplateUsageTask extends Task.Backgroundable {
             UsageTree tree = new UsageTree(context.getProject(), new RootTreeNode(templates));
             JComponent component = new JBScrollPane(tree);
             Content usageContent = contentManager.getFactory().createContent(component, "Usage", false);
+            contentManager.removeAllContents(true);
             contentManager.addContent(usageContent);
 
             toolWindow.show(null);
