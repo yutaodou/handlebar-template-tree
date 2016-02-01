@@ -1,18 +1,18 @@
-### Handlebar Template Navigator
+# Handlebar Template Tree
 An Intellij plugin aims to help navigating between handlebar/mustache templates.
 
-#### Features
+## Features
 - Show templates used by current template
 - Show templates using current template
 - Show locations(line number) where a template is used
 
 ![Tree-view](https://github.com/yutaodou/handlebar-template-tree/blob/master/screenshots/template-reference-view.png)
 
-#### Usage
+## Usage
 - Right click in a template file, select context menu "Template Hierarchy" to open the template reference tree
 
 ![context-menu](https://github.com/yutaodou/handlebar-template-tree/blob/master/screenshots/context-menu.png)
 
-#### Notes
+## Notes
 - The plugin analyses only templates that reside in a project's **src** directory. Add the directory containg your templates to the projects **src root** if not already included.
 - To show icons for your templates in the tree view, add a file type definition for handlebar that matching your template's file extension.
