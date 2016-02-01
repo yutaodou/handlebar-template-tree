@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.thoughtworks.tools.idea.templatenav</id>
     <name>Template Navigator</name>
-    <version>1.1</version>
+    <version>1.1.1</version>
     <vendor email="yutaodou@gmail.com" url="http://ddou.github.io">Dou Yutao</vendor>
 
     <description><![CDATA[
